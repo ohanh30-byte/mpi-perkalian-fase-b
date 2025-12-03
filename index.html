@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 MPI Perkalian Ceria</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <h1>🚀 Seru Belajar Perkalian 🌟</h1>
+    </header>
+
+    <div id="app-container">
+        
+        <section id="halaman-menu" class="halaman aktif">
+            <h2 class="menu-judul">👋 Siap Belajar? Pilih Pintu Petualanganmu!</h2>
+            <div class="menu-opsi">
+                <button class="tombol-menu" onclick="tampilkanHalaman('halaman-materi')">📚 Pintu Materi & Simulasi</button>
+                <button class="tombol-menu" onclick="tampilkanHalaman('halaman-latihan')">📝 Pintu Tantangan Soal</button>
+                <button class="tombol-menu" onclick="tampilkanHalaman('halaman-refleksi')">🧠 Pintu Refleksi Diri</button>
+            </div>
+            <p class="panduan-tts">🔊 **Tombol Bicara:** Setiap tombol di sini bisa bersuara!</p>
+        </section>
+
+        <section id="halaman-materi" class="halaman">
+            <h2>💡 Konsep: Perkalian = Penjumlahan Berulang</h2>
+            <div class="materi-konten">
+                <p>Ayo kita coba perkalian dengan menyusun **Cokelat** 🍫 ke dalam **Keranjang** 🧺.</p>
+                
+                <div class="simulasi-area">
+                    <label for="inputA">Jumlah Keranjang (A):</label>
+                    <input type="number" id="inputA" value="4" min="1" max="10">
+                    
+                    <label for="inputB">Cokelat per Keranjang (B):</label>
+                    <input type="number" id="inputB" value="3" min="1" max="10">
+                    
+                    <button class="tombol-aksi" onclick="MulaiSimulasi()">▶️ Mulai Simulasi Ceria!</button>
+                </div>
+
+                <div id="visualisasi-simulasi" class="visualisasi-container">
+                    <p>Visualisasi keranjang dan cokelat akan muncul di sini...</p>
+                </div>
+                
+                <p id="teks-perhitungan" class="teks-hasil"></p>
+            </div>
+            
+            <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-menu')">🏠 Kembali ke Menu Utama</button>
+        </section>
+
+        <section id="halaman-latihan" class="halaman">
+            <h2>📝 Tantangan Angka Sampai 100!</h2>
+            <p>Terdapat 20 Pilihan Ganda dan 10 Uraian Singkat. Kerjakan dengan teliti!</p>
+            <div id="area-soal">
+                </div>
+        <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-menu')">🏠 Kembali ke Menu Utama</button>
+        </section>
+
+        <section id="halaman-refleksi" class="halaman">
+            <h2>💖 Refleksi Diri & Efikasi: Seberapa Hebat Aku?</h2>
+            <div class="refleksi-area">
+                <p>Isi kuesioner ini dengan jujur. Pilih skala **1 (Tidak Yakin)** sampai **5 (Sangat Yakin)**.</p>
+                
+                <form id="form-refleksi">
+                    <input type="hidden" name="timestamp" id="timestamp">
+
+                    <label for="nama_siswa" style="font-weight: bold;">Nama Siswa:</label>
+                    <input type="text" id="nama_siswa" name="nama_siswa" required style="padding: 10px; margin-bottom: 20px;">
+                    <br>
+                    
+                    <div id="area-efikasi"></div>
+                    
+                    <button type="submit" class="tombol-aksi">💾 Simpan & Kirim Data Refleksi</button>
+                </form>
+            </div>
+            <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-menu')">🏠 Kembali ke Menu Utama</button>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script> 
+</body>
+</html>
