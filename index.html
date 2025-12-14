@@ -15,63 +15,70 @@
 
     <div id="app-container">
         
-        <section id="halaman-menu" class="halaman aktif">
-            <h2 class="menu-judul">👋 Halo Sobat Juara! Masukkan Namamu Dulu Ya:</h2>
+        <section id="halaman-depan" class="halaman aktif">
+            <h2 class="menu-judul">👋 Halo Sobat Juara!</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Sebelum bertualang, tulis namamu dulu ya:</p>
             
             <div class="input-nama-container">
                 <label for="input-nama">Nama Lengkap:</label>
                 <input type="text" id="input-nama" placeholder="Tulis namamu di sini..." required>
+                <button class="tombol-aksi" onclick="masukAplikasi()" style="margin-top: 20px;">🚀 MASUK PETUALANGAN</button>
             </div>
+            
+            <p class="panduan-tts">🔊 **Info:** Aplikasi ini ada suaranya lho!</p>
+        </section>
+
+        <section id="halaman-menu" class="halaman">
+            <h2 class="menu-judul">🏰 Menu Utama</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Halo, <strong id="tampilan-nama-siswa" style="color: #4834d4;">Teman</strong>! Mau ke mana kita?</p>
 
             <div class="menu-opsi">
-                <button class="tombol-menu" onclick="navigasiDanCekNama('halaman-materi')">📚 Pintu Materi & Simulasi</button>
-                <button class="tombol-menu" onclick="navigasiDanCekNama('halaman-latihan')">📝 Pintu Tantangan Soal</button>
+                <button class="tombol-menu" onclick="tampilkanHalaman('halaman-materi')">📚 Pintu Materi & Simulasi</button>
+                <button class="tombol-menu" onclick="tampilkanHalaman('halaman-latihan')">📝 Pintu Tantangan Soal</button>
             </div>
-            <p class="panduan-tts">🔊 **Info:** Klik tombol apa saja, nanti aku bacakan tulisannya!</p>
+            
+            <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-depan')" style="background-color: #ff6b6b; margin-top: 30px;">⬅️ Ganti Nama / Keluar</button>
         </section>
 
         <section id="halaman-materi" class="halaman">
             <h2>💡 Konsep: Perkalian = Penjumlahan Berulang</h2>
             <div class="materi-konten">
-                <p>Ayo belajar! Masukkan angka **1 sampai 10** saja ya, agar hasilnya maksimal 100 (Sesuai Fase A).</p>
-                <p>Kita akan menyusun **Cokelat** 🍫 ke dalam **Keranjang** 🧺.</p>
+                <p>Masukkan angka **1 sampai 10** saja ya (Fase A).</p>
+                <p>Menyusun **Cokelat** 🍫 ke dalam **Keranjang** 🧺.</p>
                 
                 <div class="simulasi-area">
                     <div class="input-group">
                         <label for="inputA">Jumlah Keranjang (1-10):</label>
-                        <input type="number" id="inputA" value="4" min="1" max="10" placeholder="1-10">
+                        <input type="number" id="inputA" value="4" min="1" max="10">
                     </div>
                     
                     <div class="input-group">
-                        <label for="inputB">Isi Cokelat per Keranjang (1-10):</label>
-                        <input type="number" id="inputB" value="3" min="1" max="10" placeholder="1-10">
+                        <label for="inputB">Isi Cokelat (1-10):</label>
+                        <input type="number" id="inputB" value="3" min="1" max="10">
                     </div>
                     
-                    <button class="tombol-aksi" onclick="MulaiSimulasi()">▶️ Mulai Simulasi Ceria!</button>
+                    <button class="tombol-aksi" onclick="MulaiSimulasi()">▶️ Mulai Simulasi!</button>
                 </div>
 
                 <div id="visualisasi-simulasi" class="visualisasi-container">
-                    <p><em>Visualisasi keranjang dan cokelat akan muncul di sini...</em></p>
+                    <p><em>Visualisasi akan muncul di sini...</em></p>
                 </div>
-                
                 <div id="teks-perhitungan" class="teks-hasil"></div>
             </div>
             
-            <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-menu')">🏠 Kembali ke Menu Utama</button>
+            <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-menu')">🏠 Kembali ke Menu</button>
         </section>
 
         <section id="halaman-latihan" class="halaman">
             <h2>📝 Tantangan Angka Sampai 100!</h2>
-            <p>Kerjakan 10 Soal Pilihan Ganda dan 5 Soal Uraian di bawah ini dengan teliti ya!</p>
+            <p>Kerjakan 10 Pilihan Ganda & 5 Uraian.</p>
             
-            <div id="area-soal">
-                </div>
+            <div id="area-soal"></div>
             
-            <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-menu')">🏠 Kembali ke Menu Utama</button>
+            <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-menu')">🏠 Kembali ke Menu</button>
         </section>
 
     </div>
-
     <script src="script.js"></script> 
 </body>
 </html>
