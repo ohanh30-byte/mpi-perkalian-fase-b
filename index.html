@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 MPI Perkalian Ceria: Sampai 100</title>
+    <title>🚀 MPI Perkalian Ceria: Fase A</title>
     <link rel="stylesheet" href="style.css"> 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -16,34 +16,45 @@
     <div id="app-container">
         
         <section id="halaman-menu" class="halaman aktif">
-            <h2 class="menu-judul">👋 Siap Belajar? Pilih Pintu Petualanganmu!</h2>
-            <div class="menu-opsi">
-                <button class="tombol-menu" onclick="tampilkanHalaman('halaman-materi')">📚 Pintu Materi & Simulasi</button>
-                <button class="tombol-menu" onclick="tampilkanHalaman('halaman-latihan')">📝 Pintu Tantangan Soal</button>
+            <h2 class="menu-judul">👋 Halo Sobat Juara! Masukkan Namamu Dulu Ya:</h2>
+            
+            <div class="input-nama-container">
+                <label for="input-nama">Nama Lengkap:</label>
+                <input type="text" id="input-nama" placeholder="Tulis namamu di sini..." required>
             </div>
-            <p class="panduan-tts">🔊 **Tombol Bicara:** Setiap tombol di sini bisa bersuara!</p>
+
+            <div class="menu-opsi">
+                <button class="tombol-menu" onclick="navigasiDanCekNama('halaman-materi')">📚 Pintu Materi & Simulasi</button>
+                <button class="tombol-menu" onclick="navigasiDanCekNama('halaman-latihan')">📝 Pintu Tantangan Soal</button>
+            </div>
+            <p class="panduan-tts">🔊 **Info:** Klik tombol apa saja, nanti aku bacakan tulisannya!</p>
         </section>
 
         <section id="halaman-materi" class="halaman">
             <h2>💡 Konsep: Perkalian = Penjumlahan Berulang</h2>
             <div class="materi-konten">
-                <p>Ayo kita coba perkalian dengan menyusun **Cokelat** 🍫 ke dalam **Keranjang** 🧺.</p>
+                <p>Ayo belajar! Masukkan angka **1 sampai 10** saja ya, agar hasilnya maksimal 100 (Sesuai Fase A).</p>
+                <p>Kita akan menyusun **Cokelat** 🍫 ke dalam **Keranjang** 🧺.</p>
                 
                 <div class="simulasi-area">
-                    <label for="inputA">Jumlah Keranjang (A):</label>
-                    <input type="number" id="inputA" value="4" min="1" max="10">
+                    <div class="input-group">
+                        <label for="inputA">Jumlah Keranjang (1-10):</label>
+                        <input type="number" id="inputA" value="4" min="1" max="10" placeholder="1-10">
+                    </div>
                     
-                    <label for="inputB">Cokelat per Keranjang (B):</label>
-                    <input type="number" id="inputB" value="3" min="1" max="10">
+                    <div class="input-group">
+                        <label for="inputB">Isi Cokelat per Keranjang (1-10):</label>
+                        <input type="number" id="inputB" value="3" min="1" max="10" placeholder="1-10">
+                    </div>
                     
                     <button class="tombol-aksi" onclick="MulaiSimulasi()">▶️ Mulai Simulasi Ceria!</button>
                 </div>
 
                 <div id="visualisasi-simulasi" class="visualisasi-container">
-                    <p>Visualisasi keranjang dan cokelat akan muncul di sini...</p>
+                    <p><em>Visualisasi keranjang dan cokelat akan muncul di sini...</em></p>
                 </div>
                 
-                <p id="teks-perhitungan" class="teks-hasil"></p>
+                <div id="teks-perhitungan" class="teks-hasil"></div>
             </div>
             
             <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-menu')">🏠 Kembali ke Menu Utama</button>
@@ -51,14 +62,15 @@
 
         <section id="halaman-latihan" class="halaman">
             <h2>📝 Tantangan Angka Sampai 100!</h2>
-            <p>Terdapat 20 Pilihan Ganda dan 10 Uraian Singkat. Kerjakan dengan teliti!</p>
+            <p>Kerjakan 10 Soal Pilihan Ganda dan 5 Soal Uraian di bawah ini dengan teliti ya!</p>
+            
             <div id="area-soal">
                 </div>
             
             <button class="tombol-navigasi" onclick="tampilkanHalaman('halaman-menu')">🏠 Kembali ke Menu Utama</button>
         </section>
 
-        </div>
+    </div>
 
     <script src="script.js"></script> 
 </body>
