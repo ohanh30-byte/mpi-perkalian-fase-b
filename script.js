@@ -2,7 +2,7 @@
 // 1. KONFIGURASI GOOGLE APPS SCRIPT
 // GANTI DENGAN URL DEPLOYMENT WEB APP ANDA YANG BENAR
 // ===========================================
-const WEB_APP_URL = 'GANTI_DENGAN_URL_GOOGLE_APPS_SCRIPT_ANDA';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz_7C0IjjwAFUy9OuUutkXRPjWt3DX3ja_2Y4P9w9zXtnMSoYk4ySxPe7ryf5RqdsycFg/exec';
 
 // Variabel Global
 let namaSiswa = '';
