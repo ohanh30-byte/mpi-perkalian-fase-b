@@ -1,12 +1,13 @@
 // ===========================================
 // 1. KONFIGURASI GOOGLE APPS SCRIPT
-// GANTI DENGAN URL DEPLOYMENT WEB APP ANDA YANG BENAR
+// GANTI DENGAN URL DEPLOYMENT WEB APP ANDA YANG BENAR!
 // ===========================================
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz_7C0IjjwAFUy9OuUutkXRPjWt3DX3ja_2Y4P9w9zXtnMSoYk4ySxPe7ryf5RqdsycFg/exec';
 
 // Variabel Global
 let namaSiswa = '';
-let skor = 0;
+let skorAkhir = 0; // Nilai 0-100
+let jumlahBenar = 0; // Jumlah soal yang dijawab benar
 let jawabanPengguna = []; 
 
 // ===========================================
@@ -14,29 +15,24 @@ let jawabanPengguna = [];
 // ===========================================
 
 function tampilkanHalaman(idHalaman) {
-    // Sembunyikan semua halaman
     document.querySelectorAll('.halaman').forEach(halaman => {
         halaman.classList.remove('aktif');
     });
 
-    // Tampilkan halaman tujuan
     const halamanAktif = document.getElementById(idHalaman);
     if (halamanAktif) {
         halamanAktif.classList.add('aktif');
-        // TTS Judul Halaman (Kecuali halaman depan)
         if (idHalaman !== 'halaman-depan') {
              const judul = halamanAktif.querySelector('h2').textContent;
              TextToSpeech(judul);
         }
     }
     
-    // Jika masuk ke latihan, muat soal
     if (idHalaman === 'halaman-latihan') {
         muatLatihanSoal();
     }
 }
 
-// FUNGSI BARU: Validasi Nama di Halaman Depan
 function masukAplikasi() {
     const inputNama = document.getElementById('input-nama');
     const nama = inputNama.value.trim();
@@ -48,13 +44,8 @@ function masukAplikasi() {
         return;
     }
 
-    // Simpan Nama
     namaSiswa = nama;
-    
-    // Update tampilan nama di Halaman Menu
     document.getElementById('tampilan-nama-siswa').textContent = namaSiswa;
-
-    // Pindah ke Halaman Menu
     tampilkanHalaman('halaman-menu');
     TextToSpeech(`Halo ${namaSiswa}, selamat datang di menu utama!`);
 }
@@ -70,29 +61,9 @@ function TextToSpeech(teks) {
 }
 
 // ===========================================
-// 3. LOGIKA SIMULASI & SOAL (DATA LAMA TETAP SAMA)
+// 3. LOGIKA SIMULASI (TETAP SAMA)
 // ===========================================
 
-// --- DATA SOAL (10 PG + 5 URAIAN) ---
-const dataSoal = [
-    { tipe: 'pg', soal: "Bentuk penjumlahan berulang dari 3 × 5 adalah...", pilihan: ["3 + 5", "5 + 5 + 5", "3 + 3 + 3", "5 + 3"], jawaban: "5 + 5 + 5" },
-    { tipe: 'pg', soal: "4 + 4 + 4 + 4 + 4 jika diubah ke bentuk perkalian menjadi...", pilihan: ["4 × 4", "5 × 4", "4 × 5", "5 + 4"], jawaban: "5 × 4" },
-    { tipe: 'pg', soal: "2 piring, setiap piring isi 6 apel. Kalimat matematikanya...", pilihan: ["6 × 2", "2 + 6", "2 × 6", "6 + 2"], jawaban: "2 × 6" },
-    { tipe: 'pg', soal: "Hasil dari 3 × 7 adalah...", pilihan: ["10", "14", "21", "24"], jawaban: "21" },
-    { tipe: 'pg', soal: "Berapa kali angka 9 dijumlahkan jika 5 × 9?", pilihan: ["9 kali", "5 kali", "59 kali", "4 kali"], jawaban: "5 kali" },
-    { tipe: 'pg', soal: "Jika 8 × 2, maka penjumlahan berulangnya...", pilihan: ["8 + 8", "2+2+2+2+2+2+2+2", "16", "8+2"], jawaban: "2+2+2+2+2+2+2+2" }, // Jawaban disesuaikan stringnya
-    { tipe: 'pg', soal: "Perkalian yang benar untuk 6 + 6 adalah...", pilihan: ["6 × 6", "2 × 6", "6 × 2", "12"], jawaban: "2 × 6" },
-    { tipe: 'pg', soal: "4 kotak, setiap kotak isi 5 pensil. Total?", pilihan: ["20", "9", "25", "15"], jawaban: "20" },
-    { tipe: 'pg', soal: "Hasil 6 × 4 adalah...", pilihan: ["20", "24", "28", "30"], jawaban: "24" },
-    { tipe: 'pg', soal: "Hasil 10 × 8 adalah...", pilihan: ["18", "80", "108", "81"], jawaban: "80" },
-    { tipe: 'uraian', soal: "Tuliskan hasil dari 6 × 5!", jawaban: "30" },
-    { tipe: 'uraian', soal: "Ada 3 kandang, setiap kandang 4 ayam. Total ayam?", jawaban: "12" },
-    { tipe: 'uraian', soal: "Berapa hasil dari 9 × 5?", jawaban: "45" },
-    { tipe: 'uraian', soal: "Jika 2 × A = 14, berapakah nilai A?", jawaban: "7" },
-    { tipe: 'uraian', soal: "Berapa hasil dari 7 × 4?", jawaban: "28" }
-];
-
-// --- FUNGSI SIMULASI ---
 function MulaiSimulasi() {
     let A = parseInt(document.getElementById('inputA').value);
     let B = parseInt(document.getElementById('inputB').value);
@@ -120,17 +91,48 @@ function MulaiSimulasi() {
     TextToSpeech(`${A} kali ${B} sama dengan ${total}.`);
 }
 
-// --- FUNGSI LATIHAN ---
+// ===========================================
+// 4. LOGIKA LATIHAN & SKORING BARU (100 POIN)
+// ===========================================
+
+const dataSoal = [
+    // 10 SOAL PG (Bobot 5 Poin)
+    { tipe: 'pg', soal: "Bentuk penjumlahan berulang dari 3 × 5 adalah...", pilihan: ["3 + 5", "5 + 5 + 5", "3 + 3 + 3", "5 + 3"], jawaban: "5 + 5 + 5" },
+    { tipe: 'pg', soal: "4 + 4 + 4 + 4 + 4 jika diubah ke bentuk perkalian menjadi...", pilihan: ["4 × 4", "5 × 4", "4 × 5", "5 + 4"], jawaban: "5 × 4" },
+    { tipe: 'pg', soal: "2 piring, setiap piring isi 6 apel. Kalimat matematikanya...", pilihan: ["6 × 2", "2 + 6", "2 × 6", "6 + 2"], jawaban: "2 × 6" },
+    { tipe: 'pg', soal: "Hasil dari 3 × 7 adalah...", pilihan: ["10", "14", "21", "24"], jawaban: "21" },
+    { tipe: 'pg', soal: "Berapa kali angka 9 dijumlahkan jika 5 × 9?", pilihan: ["9 kali", "5 kali", "59 kali", "4 kali"], jawaban: "5 kali" },
+    { tipe: 'pg', soal: "Jika 8 × 2, maka penjumlahan berulangnya...", pilihan: ["8 + 8", "2+2+2+2+2+2+2+2", "16", "8+2"], jawaban: "2+2+2+2+2+2+2+2" },
+    { tipe: 'pg', soal: "Perkalian yang benar untuk 6 + 6 adalah...", pilihan: ["6 × 6", "2 × 6", "6 × 2", "12"], jawaban: "2 × 6" },
+    { tipe: 'pg', soal: "4 kotak, setiap kotak isi 5 pensil. Total?", pilihan: ["20", "9", "25", "15"], jawaban: "20" },
+    { tipe: 'pg', soal: "Hasil 6 × 4 adalah...", pilihan: ["20", "24", "28", "30"], jawaban: "24" },
+    { tipe: 'pg', soal: "Hasil 10 × 8 adalah...", pilihan: ["18", "80", "108", "81"], jawaban: "80" },
+    
+    // 5 SOAL URAIAN (Bobot 10 Poin)
+    { tipe: 'uraian', soal: "Tuliskan hasil dari 6 × 5!", jawaban: "30" },
+    { tipe: 'uraian', soal: "Ada 3 kandang, setiap kandang 4 ayam. Total ayam?", jawaban: "12" },
+    { tipe: 'uraian', soal: "Berapa hasil dari 9 × 5?", jawaban: "45" },
+    { tipe: 'uraian', soal: "Jika 2 × A = 14, berapakah nilai A?", jawaban: "7" },
+    { tipe: 'uraian', soal: "Berapa hasil dari 7 × 4?", jawaban: "28" }
+];
+
 function muatLatihanSoal() {
     const area = document.getElementById('area-soal');
     area.innerHTML = "";
-    skor = 0;
+    skorAkhir = 0;
+    jumlahBenar = 0;
     
-    // Acak Soal (Opsional)
+    // Acak Soal agar tidak bosan
     dataSoal.sort(() => Math.random() - 0.5);
 
     dataSoal.forEach((item, idx) => {
-        let html = `<div class="kartu-soal" id="soal-${idx}"><p class="nomor-soal">Soal ${idx+1}</p><p class="teks-soal">${item.soal}</p>`;
+        // Tampilkan bobot nilai di kartu soal
+        const bobot = item.tipe === 'pg' ? '(5 Poin)' : '(10 Poin)';
+        
+        let html = `<div class="kartu-soal" id="soal-${idx}">
+            <p class="nomor-soal">Soal ${idx+1} <small>${bobot}</small></p>
+            <p class="teks-soal">${item.soal}</p>`;
+            
         if (item.tipe === 'pg') {
             html += `<div class="pilihan-ganda">`;
             item.pilihan.forEach(pil => {
@@ -150,8 +152,9 @@ function muatLatihanSoal() {
 function cekJawaban() {
     if (!namaSiswa) { alert("Nama hilang. Silakan masuk ulang."); tampilkanHalaman('halaman-depan'); return; }
     
-    skor = 0;
-    let total = dataSoal.length;
+    skorAkhir = 0;
+    jumlahBenar = 0;
+    let totalSoal = dataSoal.length;
     let terisi = true;
 
     dataSoal.forEach((item, idx) => {
@@ -166,12 +169,18 @@ function cekJawaban() {
 
         if (!val) terisi = false;
         
-        // Logika Pengecekan (Sederhana)
-        // Hapus spasi untuk membandingkan jawaban uraian/pg lebih aman
+        // Cek Benar/Salah (Case Insensitive & Hapus Spasi)
         let benar = false;
-        if (val.replace(/\s/g,'').toLowerCase() === item.jawaban.replace(/\s/g,'').toLowerCase()) {
+        if (val && val.replace(/\s/g,'').toLowerCase() === item.jawaban.replace(/\s/g,'').toLowerCase()) {
             benar = true;
-            skor++;
+            jumlahBenar++; // Hitung jumlah jawaban benar
+            
+            // LOGIKA SKORING BARU
+            if (item.tipe === 'pg') {
+                skorAkhir += 5; // PG Benar = +5
+            } else {
+                skorAkhir += 10; // Uraian Benar = +10
+            }
         }
 
         // Visual Feedback
@@ -182,24 +191,24 @@ function cekJawaban() {
 
     if (!terisi) { alert("Isi semua jawaban dulu ya!"); return; }
 
-    let persen = ((skor/total)*100).toFixed(0);
-    let pesan = persen >= 80 ? "Luar Biasa!" : "Tetap Semangat!";
+    let pesan = skorAkhir >= 80 ? "Luar Biasa!" : (skorAkhir >= 60 ? "Bagus!" : "Terus Berlatih ya!");
     
     document.getElementById('hasil-cek').innerHTML = `
         <div class="rekap-skor">
             <p>Nama: <strong>${namaSiswa}</strong></p>
-            <p>Skor: <strong>${skor}/${total}</strong> (${persen}%)</p>
+            <p>Jawaban Benar: <strong>${jumlahBenar}</strong> dari <strong>${totalSoal}</strong> soal</p>
+            <p style="font-size: 1.5rem; color: #2ecc71; margin: 10px 0;">Nilai Akhir: <strong>${skorAkhir}</strong></p>
             <p>${pesan}</p>
         </div>
     `;
-    TextToSpeech(`Nilai kamu ${persen}. ${pesan}`);
+    TextToSpeech(`Nilai akhir kamu ${skorAkhir}. ${pesan}`);
 
     // KIRIM KE GOOGLE SHEETS
     postToGoogleSheet({
         Nama: namaSiswa,
-        SkorBenar: skor,
-        TotalSoal: total,
-        Persentase: persen + "%",
+        SkorBenar: jumlahBenar, // Kirim jumlah jawaban benar (misal 12)
+        TotalSoal: totalSoal,   // Kirim total soal (15)
+        Persentase: skorAkhir,  // KITA GANTI "PERSENTASE" JADI "NILAI AKHIR" (0-100)
         Timestamp: new Date().toLocaleString('id-ID')
     });
 }
